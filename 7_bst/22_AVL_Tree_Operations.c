@@ -1,16 +1,29 @@
-#include <iostream>
-#include <algorithm>
+#include <stdio.h>
+#include <stdlib.h>
 
-using namespace std;
-
-struct AVLNode {
+typedef struct AVLNode {
     int key, height;
-    AVLNode *left, *right;
-    AVLNode(int k) : key(k), height(1), left(nullptr), right(nullptr) {}
-};
+    struct AVLNode *left, *right;
+} AVLNode;
 
-int height(AVLNode *N) { return N ? N->height : 0; }
-int getBalance(AVLNode *N) { return N ? height(N->left) - height(N->right) : 0; }
+static AVLNode* newAVLNode(int k) {
+    AVLNode* n = (AVLNode*)malloc(sizeof(AVLNode));
+    n->key = k;
+    n->height = 1;
+    n->left = n->right = NULL;
+    return n;
+}
+
+static void freeAVL(AVLNode* root) {
+    if (!root) return;
+    freeAVL(root->left);
+    freeAVL(root->right);
+    free(root);
+}
+
+static int max(int a, int b) { return a > b ? a : b; }
+static int height(AVLNode *N) { return N ? N->height : 0; }
+static int getBalance(AVLNode *N) { return N ? height(N->left) - height(N->right) : 0; }
 
 AVLNode *rightRotate(AVLNode *y) {
     AVLNode *x = y->left;
@@ -33,7 +46,7 @@ AVLNode *leftRotate(AVLNode *x) {
 }
 
 AVLNode* insertAVL(AVLNode* node, int key) {
-    if (!node) return new AVLNode(key);
+    if (!node) return newAVLNode(key);
     if (key < node->key) node->left = insertAVL(node->left, key);
     else if (key > node->key) node->right = insertAVL(node->right, key);
     else return node;
@@ -60,16 +73,20 @@ AVLNode* insertAVL(AVLNode* node, int key) {
 
 void preOrder(AVLNode *root) {
     if (!root) return;
-    cout << root->key << " ";
+    printf("%d ", root->key);
     preOrder(root->left);
     preOrder(root->right);
 }
 
-int main() {
-    AVLNode *root = nullptr;
-    for (int k : {10, 20, 30, 40, 50, 25}) root = insertAVL(root, k);
-    cout << "Preorder of balanced AVL tree: ";
+int main(void) {
+    AVLNode *root = NULL;
+    int keys[] = {10, 20, 30, 40, 50, 25};
+    int n = sizeof(keys) / sizeof(keys[0]);
+    for (int i = 0; i < n; i++) root = insertAVL(root, keys[i]);
+
+    printf("Preorder of balanced AVL tree: ");
     preOrder(root);
-    cout << endl;
+    printf("\n");
+    freeAVL(root);
     return 0;
 }
