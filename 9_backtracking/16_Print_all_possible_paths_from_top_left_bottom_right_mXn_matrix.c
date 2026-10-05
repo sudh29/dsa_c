@@ -27,5 +27,6 @@ int main(void) {
     printf("Number of paths for %dx%d: 6\n", m, n);
     printf("All paths:\n");
     findPaths(0, 0, m, n, path, 0);
+    printf("Total paths found: %d\n", path_count);
     return 0;
 }

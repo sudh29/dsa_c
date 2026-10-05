@@ -4,9 +4,8 @@
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 CC="${CC:-gcc}"
-CXX="${CXX:-g++}"
 CFLAGS="-std=c11 -Wall -Wextra -O2"
-CXXFLAGS="-std=c++20 -Wall -Wextra -O2"
+LDFLAGS="-lm"
 
 JOBS="${JOBS:-$(nproc 2>/dev/null || echo 4)}"
 STRICT=0
@@ -22,7 +21,6 @@ while [[ $# -gt 0 ]]; do
         --strict)
             STRICT=1
             CFLAGS="${CFLAGS} -Werror"
-            CXXFLAGS="${CXXFLAGS} -Werror"
             shift
             ;;
         -h|--help)
@@ -72,8 +70,8 @@ FAILED_FILES=()
 START_TIME=$(date +%s)
 
 echo "=========================================================="
-echo " Starting DSA C (C11) & C++ (C++20) Test Suite"
-echo " Compiler:    C: ${CC}, C++: ${CXX}"
+echo " Starting DSA Pure C (C11) Test Suite"
+echo " Compiler:    ${CC}"
 echo " Root:        ${REPO_ROOT}"
 echo " Parallelism: ${JOBS} concurrent jobs"
 if [ ${STRICT} -eq 1 ]; then
@@ -95,7 +93,7 @@ for mod in "${MODULES[@]}"; do
             continue
         fi
         mod_name="${mod}"
-        mapfile -t files < <(find "${MOD_PATH}" -maxdepth 1 \( -name "*.c" -o -name "*.cpp" \) | sort)
+        mapfile -t files < <(find "${MOD_PATH}" -maxdepth 1 -name "*.c" | sort)
     fi
 
     echo ""
@@ -111,11 +109,7 @@ for mod in "${MODULES[@]}"; do
         (
             bin="${TMP_DIR}/bin_${BASHPID}"
             log="${TMP_DIR}/log_${BASHPID}.txt"
-            if [[ "$f" == *.c ]]; then
-                compile_cmd="${CC} ${CFLAGS} \"$f\" -o \"${bin}\""
-            else
-                compile_cmd="${CXX} ${CXXFLAGS} \"$f\" -o \"${bin}\""
-            fi
+            compile_cmd="${CC} ${CFLAGS} \"$f\" ${LDFLAGS} -o \"${bin}\""
 
             if eval "${compile_cmd}" >"${log}" 2>&1 && "${bin}" >>"${log}" 2>&1; then
                 rm -f "${bin}" "${log}"
