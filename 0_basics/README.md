@@ -1,10 +1,9 @@
-# 0_Basics: C & C++ Fundamentals
+# 0_Basics: C Fundamentals (C11 Standard)
 
-This module covers core foundational programming constructs in C (C11) and modern C++ (C++20), focusing on memory management, pointers, object-oriented programming, and essential mathematical algorithms.
+This module covers core foundational programming constructs in pure C (C11 standard), focusing on memory management, pointers, object-oriented encapsulation patterns in C, file I/O, and essential algorithms.
 
 ## Programs
 
-### Pure C (C11)
 | File | Topic / Concept |
 |------|-----------------|
 | [c_syntax_and_types.c](c_syntax_and_types.c) | Data types, type sizes, limits, arithmetic operators |
@@ -13,26 +12,22 @@ This module covers core foundational programming constructs in C (C11) and moder
 | [swap_two_numbers.c](swap_two_numbers.c) | In-place swapping via pointers and bitwise XOR |
 | [prime_check.c](prime_check.c) | Optimized trial division primality test ($O(\sqrt{n})$) |
 | [count_set_bits.c](count_set_bits.c) | Brian Kernighan's set-bit counting algorithm |
-
-### Modern C++ (C++20)
-| File | Topic / Concept |
-|------|-----------------|
-| [cpp_hello_and_io.cpp](cpp_hello_and_io.cpp) | Standard streams (`std::cout`, `std::cin`), string streams |
-| [cpp_spaceship_operator.cpp](cpp_spaceship_operator.cpp) | C++20 three-way comparison operator (`<=>`) |
-| [cpp_references_and_functions.cpp](cpp_references_and_functions.cpp) | Pass-by-reference (`&`), lambdas, function composition |
-| [cpp_classes_and_oop.cpp](cpp_classes_and_oop.cpp) | Classes, constructors, encapsulation, const-correctness |
-| [cpp_stl_containers.cpp](cpp_stl_containers.cpp) | `std::vector`, `std::unordered_map`, `std::unordered_set` |
-| [cpp_anagrams.cpp](cpp_anagrams.cpp) | Anagram validation using frequency hashing |
-| [cpp_pattern_count.cpp](cpp_pattern_count.cpp) | Substring search and pattern occurrence counting |
-| [cpp_grid_paths.cpp](cpp_grid_paths.cpp) | Unique grid paths via Dynamic Programming |
-| [cpp_file_io.cpp](cpp_file_io.cpp) | File stream processing with `std::ifstream` and `std::ofstream` |
-| [system_details.cpp](system_details.cpp) | Compiler identification, `__cplusplus` standard version |
+| [c_hello_and_io.c](c_hello_and_io.c) | Standard I/O streams (`printf`, `snprintf`), formatted output |
+| [c_three_way_comparison.c](c_three_way_comparison.c) | Idiomatic C three-way comparisons (`strcmp`, `qsort` comparator convention) |
+| [c_pointers_and_references.c](c_pointers_and_references.c) | Pass-by-reference simulation via pointers, function pointers & callbacks |
+| [c_classes_and_oop.c](c_classes_and_oop.c) | Object-oriented patterns, encapsulation, and struct methods via function pointers |
+| [c_dynamic_array.c](c_dynamic_array.c) | Resizable dynamic array (vector ADT) with `malloc`/`realloc`/`free` |
+| [c_anagrams.c](c_anagrams.c) | Anagram validation using frequency hashing in C |
+| [c_pattern_count.c](c_pattern_count.c) | Substring search and pattern occurrence counting via `strstr` |
+| [c_grid_paths.c](c_grid_paths.c) | Unique grid paths via Dynamic Programming |
+| [c_file_io.c](c_file_io.c) | C file operations with `fopen`, `fputs`, `fgets`, and `fclose` |
+| [system_details.c](system_details.c) | Compiler identification, `__STDC_VERSION__`, architecture pointer size |
 
 ## Compilation & Execution
 ```bash
-# Compile C programs
-gcc -std=c11 -Wall -Wextra c_syntax_and_types.c -o syntax && ./syntax
+# Compile and run individual program
+gcc -std=c11 -Wall -Wextra -O2 c_syntax_and_types.c -o syntax && ./syntax
 
-# Compile C++ programs
-g++ -std=c++20 -Wall -Wextra cpp_spaceship_operator.cpp -o spaceship && ./spaceship
+# Run module test suite
+make test MODULE=0_basics
 ```
